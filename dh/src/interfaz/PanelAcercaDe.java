@@ -29,7 +29,7 @@ public class PanelAcercaDe extends JDialog {
 		txtArea.setWrapStyleWord(true);
 		txtArea.setBackground(Color.BLACK);
 		Font fuente5 = new Font("Calibri", 3, 14);
-		JLabel lbPuntaje = new JLabel("James Montealegre A00014976 - John Urbano A00292788\n Algoritmos y programacion II \n UNIVERSIDAD ICESI " );
+		JLabel lbPuntaje = new JLabel("James Montealegre A00014976 \n Algoritmos y programacion II \n UNIVERSIDAD ICESI " );
 		lbPuntaje.setFont(fuente5);
 		txtArea.setFont(fuente5);
 		txtArea.setForeground(Color.GREEN);

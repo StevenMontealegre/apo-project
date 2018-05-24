@@ -12,6 +12,7 @@ import java.awt.Polygon;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -50,6 +51,7 @@ public class PanelEscenario extends JDialog implements MouseListener {
 	private Graphics gAux;
 	private Dimension dimAux;
 	private Dimension dimCanvas;
+	
 
 	public PanelEscenario(InterfazJuego p) {
 
