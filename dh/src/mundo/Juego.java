@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,12 +17,17 @@ import java.util.Collection;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import exceptions.NoExisteUsuarioException;
+import exceptions.YaExisteUsuarioException;
+
 public class Juego {
 
 	private Usuario primero;
 	private Usuario usuarioActual;
 	private int nivel;
 	private int numeroAtrapados;
+	private double numeroJugadores;
+	@SuppressWarnings("unused")
 	private Puntaje elPuntaje;
 	private ArrayList<Ave> aves;
 	private ArrayList<Usuario> usuarios;
@@ -35,10 +41,12 @@ public class Juego {
 		this.primero = primero;
 		this.nivel = nivel;
 		this.setNumeroAtrapados(0);
+		setNumeroJugadores(0);
 		this.setUsuarioActual(null);
 		aves = new ArrayList<>();
 		usuarios = new ArrayList<>();
-		elPuntaje = new Puntaje();
+		// cargarEstado();
+		// elPuntaje = new Puntaje();
 
 		for (int i = 0; i < 30; i++) {
 
@@ -53,38 +61,6 @@ public class Juego {
 			} else {
 				aves.add(new Perdiz(720, 100, 10000));
 			}
-		}
-
-	}
-
-	public void cargarPuntaje() {
-		File archivo = new File(RUTA_PUNTAJE);
-
-		if (archivo.exists()) {
-			try {
-				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo));
-				elPuntaje = (Puntaje) ois.readObject();
-				ois.close();
-
-			} catch (IOException | ClassNotFoundException e) {
-				e.printStackTrace();
-
-			}
-		} else {
-			elPuntaje = new Puntaje();
-		}
-
-	}
-
-	public void salvarPuntaje() {
-		ObjectOutputStream oos;
-		try {
-			oos = new ObjectOutputStream(new FileOutputStream(RUTA_PUNTAJE));
-			oos.writeObject(elPuntaje);
-			oos.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
@@ -121,6 +97,7 @@ public class Juego {
 						primero.setAnterior(p);
 						p.setSiguiente(primero);
 						primero = p;
+						numeroJugadores++;
 						parar = true;
 
 					} else {
@@ -129,18 +106,21 @@ public class Juego {
 						p.setSiguiente(variable);
 						variable.getAnterior().setSiguiente(p);
 						variable.setAnterior(p);
+						numeroJugadores++;
 						parar = true;
 
 					}
 				} else if (variable.getSiguiente() == null && !parar) {
 					variable.setSiguiente(p);
 					p.setAnterior(variable);
+					numeroJugadores++;
 					parar = true;
 				}
 				variable = variable.getSiguiente();
 			}
 		} else {
 			primero = p;
+			numeroJugadores++;
 		}
 	}
 
@@ -173,7 +153,7 @@ public class Juego {
 
 	}
 
-	public Usuario buscarJugador(int valor) {
+	public Usuario buscarJugador(int valor) throws NoExisteUsuarioException {
 
 		ordenarBurbuja(arregloUsuarios());
 		boolean esta = false;
@@ -192,10 +172,51 @@ public class Juego {
 				inicio = medio + 1;
 			}
 		}
+		if (jugador == null) {
+			throw new NoExisteUsuarioException();
+		}
 
 		return jugador;
 
 	}
+
+	// public void cargarEstado() {
+	// File archivo = new File(RUTA_PUNTAJE);
+	// Usuario aux = primero;
+	//
+	// if (archivo.exists()) {
+	// try {
+	// ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo));
+	// @SuppressWarnings("unchecked")
+	// ArrayList<Usuario> usuarios_salvados = (ArrayList<Usuario>) ois.readObject();
+	// for (int i = 0; i < usuarios_salvados.size(); i++) {
+	// aux = usuarios_salvados.get(i);
+	// aux = aux.getSiguiente();
+	//
+	// }
+	//
+	// ois.close();
+	//
+	// } catch (IOException | ClassNotFoundException e) {
+	// e.printStackTrace();
+	//
+	// }
+	// }
+	//
+	// }
+	//
+	// public void salvarEstado() {
+	// ObjectOutputStream oos;
+	// try {
+	// oos = new ObjectOutputStream(new FileOutputStream(RUTA_PUNTAJE));
+	// oos.writeObject(arregloUsuarios());
+	// oos.close();
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	public ArrayList<Usuario> getUsuarios() {
 		return usuarios;
@@ -257,6 +278,14 @@ public class Juego {
 
 	public void setNumeroAtrapados(int numeroAtrapados) {
 		this.numeroAtrapados = numeroAtrapados;
+	}
+
+	public double getNumeroJugadores() {
+		return numeroJugadores;
+	}
+
+	public void setNumeroJugadores(double numeroJugadores) {
+		this.numeroJugadores = numeroJugadores;
 	}
 
 }

@@ -62,7 +62,6 @@ public class InterfazJuego extends JFrame {
 		setLocationRelativeTo(null);
 
 		mundo = new Juego(null, 0);
-		mundo.cargarPuntaje();
 		panelJugar = new PanelJugar(this);
 		panelAcerca = new PanelAcercaDe();
 		panelInicio = new PanelInicio(this);

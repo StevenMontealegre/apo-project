@@ -1,4 +1,4 @@
-package mundo;
+package exceptions;
 
 /**
  * Clase que representa la caso de excepción cuando se intenta agregar una prenda con un código existente

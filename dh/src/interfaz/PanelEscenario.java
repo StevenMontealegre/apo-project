@@ -51,7 +51,6 @@ public class PanelEscenario extends JDialog implements MouseListener {
 	private Graphics gAux;
 	private Dimension dimAux;
 	private Dimension dimCanvas;
-	
 
 	public PanelEscenario(InterfazJuego p) {
 
@@ -198,7 +197,7 @@ public class PanelEscenario extends JDialog implements MouseListener {
 			nickname = principal.getMundo().getUsuarioActual().getNickname();
 			score = principal.getMundo().getUsuarioActual().buscarMayorPuntaje();
 			principal.getPanelInicio().pintarScore(nickname, score);
-			principal.getMundo().salvarPuntaje();
+			//			principal.getMundo().salvarEstado();
 			dispose();
 
 		}

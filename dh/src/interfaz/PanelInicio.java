@@ -17,8 +17,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import exceptions.CasillaVaciaException;
+import exceptions.YaExisteUsuarioException;
 import mundo.Usuario;
-import mundo.YaExisteUsuarioException;
 
 public class PanelInicio extends JPanel implements ActionListener {
 
@@ -115,7 +116,6 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 		String resultado = nick + " " + sc + "";
 		txtArea.append(resultado + "\n");
-		txtArea.append("HOLA MUNDO CRUEL");
 
 	}
 
@@ -149,7 +149,12 @@ public class PanelInicio extends JPanel implements ActionListener {
 				}
 
 			} else {
-				JOptionPane.showMessageDialog(this, "Ingrese su nombre por favor");
+				try {
+					throw new CasillaVaciaException();
+				} catch (CasillaVaciaException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Warning", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 
 		}

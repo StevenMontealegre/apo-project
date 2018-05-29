@@ -1,7 +1,13 @@
 package mundo;
 
-public class Usuario implements Comparable<Usuario> {
+import java.io.Serializable;
 
+public class Usuario implements Comparable<Usuario>, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nickname;
 	private int score;
 	private Usuario anterior;

@@ -24,6 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import exceptions.CasillaVaciaException;
+import exceptions.NoExisteUsuarioException;
 import mundo.Usuario;
 
 public class PanelJugar extends JDialog implements MouseListener, ActionListener {
@@ -55,7 +57,6 @@ public class PanelJugar extends JDialog implements MouseListener, ActionListener
 		lbImagen1 = new JLabel(imagen1);
 		lbImagen2 = new JLabel(imagen2);
 		panelAux2.setBackground(Color.BLACK);
-		// panelAux2.add(lbImagen1);
 		panelAux2.add(lbImagen2);
 
 		Font fuente = new Font("Broadway", 3, 24);
@@ -82,9 +83,9 @@ public class PanelJugar extends JDialog implements MouseListener, ActionListener
 		btnScore.addActionListener(this);
 
 		JPanel panelAux = new JPanel();
-		panelAux.setLayout(new GridLayout(3, 1));
+		panelAux.setLayout(new GridLayout(2, 1));
 		panelAux.add(btnGameA);
-		panelAux.add(btnGameB);
+		// panelAux.add(btnGameB);
 		panelAux.add(btnScore);
 
 		add(panelAux2, BorderLayout.CENTER);
@@ -138,9 +139,22 @@ public class PanelJugar extends JDialog implements MouseListener, ActionListener
 			String sol = JOptionPane.showInputDialog("Ingrese el score que quiere buscar", this);
 			if (sol != "") {
 				int sco = Integer.parseInt(sol);
-				Usuario usu = principal.getMundo().buscarJugador(sco);
-				JOptionPane.showMessageDialog(this, "El usuario con ese score es: " + usu);
+				@SuppressWarnings("unused")
+				Usuario usu;
+				try {
+					usu = principal.getMundo().buscarJugador(sco);
+				} catch (NoExisteUsuarioException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Warning", JOptionPane.ERROR_MESSAGE);
+				}
 
+			} else {
+				try {
+					throw new CasillaVaciaException();
+				} catch (CasillaVaciaException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
 			}
 
 		}
